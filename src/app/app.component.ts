@@ -17,15 +17,5 @@ export class AppComponent implements OnInit {
     this.userInfo = window.localStorage.getItem('userInfo');
   }
 
-  ngOnInit() {
-    this.menuData.getMenuData().subscribe(data => {
-      console.log(data);
-    })
-  }
-
-
-  logout() {
-    this.userInfo = window.localStorage.clear();
-    this.router.navigateByUrl('/login');
-  }
+  ngOnInit() {}
 }

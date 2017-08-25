@@ -1,0 +1,99 @@
+<div class="top-nav">
+  <button class="ui button" (click)="logout()">logout</button>
+</div>
+<div class="content">
+  <form #form="ngForm" *ngIf="this.userInfo.isAdmin" class="add-category-container">
+    <h4>Add Category</h4>
+    <div class="ui input">
+      <input type="text" [(ngModel)]="newCategory.name" name="categoryName" placeholder="category name" required>
+    </div>
+    <div class="ui input">
+      <input type="text" [(ngModel)]="newCategory.description" name="categoryName" placeholder="category description" required>
+    </div>
+    <button [disabled]="!form.form.valid" (click)="addCategory()" class="ui button add-category-container__addCategory">
+      create category
+    </button>
+  </form>
+  <div class="menu-container">
+    <h2 class="menu-container__headig">Menu Data</h2>
+    <sui-accordion *ngIf="menuData" [closeOthers]="false">
+      <sui-accordion-panel *ngFor="let category of menuData.categories; let categoryIndex = index;">
+        <div class="category-header" title>
+          <div class="category-header__title">
+            <i class="fa fa-bars bars"></i> {{category.name}}
+          </div>
+          <div *ngIf="userInfo.isAdmin" class="category-header__opertaion-container">
+            <form #form="ngForm" *ngIf="category.editable" class="category-header-input-container">
+              <input type=" text" [(ngModel)]="category.name" name="categoryName" placeholder="{{category.name}}" required>
+              <button class="ui button submit-button" [disabled]="!form.form.valid" (click)="submitEditCategory(categoryIndex)">Submit</button>
+            </form>
+            <button (click)="editCategory(categoryIndex)" class="ui button edit-button" type="">Edit</button>
+            <button (click)="deleteCategory(categoryIndex)" class="ui button delete-button" type="">Delete</button>
+          </div>
+        </div>
+        <div content>
+          <div class="category-content">
+            <div class="category-details">
+              <div class="category-details__names">
+                <h3>Name</h3>
+                <div *ngFor="let item of category.items; let index = index;">
+                  <p class="category-item">{{item.name}}</p>
+                </div>
+              </div>
+              <div class="category-details__description" [ngClass]="{'width-100': category.items < 8}">
+                <h3>Description</h3>
+                <div *ngFor="let item of category.items; let index = index;">
+                  <p class="category-description" *ngIf="item.description !== ''">{{item.description}}</p>
+                  <p class="category-description" *ngIf="item.description == ''">empty</p>
+                </div>
+              </div>
+              <div class="category-details__price">
+                <h3>price</h3>
+                <div *ngFor="let item of category.items; let index = index;">
+                  <p class="category-price">{{item.price}}</p>
+                </div>
+              </div>
+            </div>
+            <div *ngIf="userInfo.isAdmin" class="item-operation">
+              <div *ngFor="let item of category.items; let itemIndex = index;" class="item-operation-inner-container">
+                <form #form="ngForm" *ngIf="item.editable" class="category-header-input-container">
+                  <div class="item-input-outer-container">
+                    <div class="ui input item-input-container">
+                      <input type="text" [(ngModel)]="item.name" name="itemName" placeholder="{{item.name}}" required>
+                    </div>
+                    <div class="ui input item-input-container">
+                      <textarea type="text" [(ngModel)]="item.description" name="itemDescription" placeholder="{{item.description}}" required></textarea>
+                    </div>
+                    <div class="ui input item-input-container">
+                      <input type="number" [(ngModel)]="item.price" name="itemPrice" placeholder="{{item.price}}" required>
+                    </div>
+                    <button class="ui button submit-button" [disabled]="!form.form.valid" (click)="submitEditItem(categoryIndex, itemIndex)">Submit</button>
+                  </div>
+                </form>
+                <div *ngIf="!item.editable" class="empty-editable">
+                </div>
+                <button (click)="editItem(categoryIndex, itemIndex)" class="ui button edit-button item">Edit</button>
+                <button (click)="deleteItem(categoryIndex, itemIndex)" class="ui button delete-button item">Delete</button>
+              </div>
+            </div>
+          </div>
+          <form #form="ngForm" *ngIf="this.userInfo.isAdmin" class="add-item-container">
+            <h4>Add Category</h4>
+            <div class="ui input">
+              <input type="text" [(ngModel)]="newItem.name" name="ItemName" placeholder="Item name" required>
+            </div>
+            <div class="ui input">
+              <input type="text" [(ngModel)]="newItem.description" name="ItemName" placeholder="Item description">
+            </div>
+            <div class="ui input">
+              <input type="number" [(ngModel)]="newItem.price" name="ItemPrice" placeholder="Item Price" required>
+            </div>
+            <button [disabled]="!form.form.valid" (click)="addItem(categoryIndex)" class="ui button add-item-container__addCategory">
+              Add Item
+            </button>
+          </form>
+        </div>
+      </sui-accordion-panel>
+    </sui-accordion>
+  </div>
+</div>
