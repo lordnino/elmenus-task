@@ -1,3 +1,9 @@
+# Project
+
+Simple Web View project that has users board and admin board
+users can view the menu
+admin can add edit delete items.
+
 # MenuTask
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.3.1.
